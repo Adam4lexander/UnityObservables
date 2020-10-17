@@ -95,6 +95,6 @@ namespace UnityObservables {
                 return enm.Current;
             }
         }
-    }
 #endif
+    }
 }
