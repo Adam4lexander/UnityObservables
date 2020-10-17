@@ -8,17 +8,13 @@ using UnityEditor;
 namespace UnityObservables {
 
     [Serializable]
-    public class ObservableBool : Observable<bool> { }
-
-    [Serializable]
-    public class ObservableFloat : Observable<float> { }
-
-    [Serializable]
     public class Observable<T> : ObservableBase, IEquatable<Observable<T>> {
 
         [SerializeField]
         T value;
 
+        // When the observables value is changed in the inspector or due to an UNDO operation we can compare
+        // it to this variable to see if an event should be fired.
         T prevValue;
         bool prevValueInitialized = false;
 

@@ -11,19 +11,28 @@ using System.Reflection;
 
 namespace UnityObservables {
 
+    // Base class implemented by all Observable types.
     public abstract class ObservableBase {
         public abstract event Action OnChanged;
+
+        // Can be called in a MonoBehaviours OnValidate section so events can fire after an UNDO operation
         public abstract void OnValidate();
+
         protected abstract string ValuePropName { get; }
+
         protected abstract void OnBeginGui();
 
 #if UNITY_EDITOR
+        /* A Property Drawer for all subclasses of ObservableBase. It simply draws the underlying data type, such
+         * that the fact its an Observable is hidden in the inspector.
+         */
         [CustomPropertyDrawer(typeof(ObservableBase), true)]
         public class ObservableDrawer : PropertyDrawer {
             public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
 
                 var obs = fieldInfo.GetValue(GetParent(property)) as ObservableBase;
 
+                // Instruct the observable to prepare for its value to be changed in the inspector
                 obs.OnBeginGui();
 
                 var val = property.FindPropertyRelative(obs.ValuePropName);
@@ -34,10 +43,14 @@ namespace UnityObservables {
 
                 if (EditorGUI.EndChangeCheck()) {
                     property.serializedObject.ApplyModifiedProperties();
+                    // Will cause the observable to fire any events caused by this change
                     obs.OnValidate();
                 }
             }
 
+            /* The complexity here is to accurately calculate the height of the drawer when its nested inside classes or
+             * arrays in the serialized object.
+             */
             public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
                 var obs = fieldInfo.GetValue(GetParent(property)) as ObservableBase;
                 SerializedProperty val = property.FindPropertyRelative(obs.ValuePropName);

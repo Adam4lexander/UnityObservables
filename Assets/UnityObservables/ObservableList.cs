@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace UnityObservables {
+
     [Serializable]
     public class ObservableList<T> : ObservableBase, IList<T> {
         public event Action<T> ItemAdded;
@@ -13,6 +14,8 @@ namespace UnityObservables {
         [SerializeField]
         List<T> m_list = new List<T>();
 
+        // When the observables value is changed in the inspector or due to an UNDO operation we can compare
+        // it to this variable to see if an event should be fired.
         List<T> prevList = new List<T>();
         bool prevListInitialized = false;
 
