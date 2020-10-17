@@ -3,7 +3,7 @@
 // Need to bring in the UnityObservables namespace
 using UnityObservables;
 
-[ExecuteInEditMode]
+
 public class ExampleObservable : MonoBehaviour {
 
     // Unity doesnt serialize generic types, so we must make concrete types for any observables
