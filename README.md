@@ -1,8 +1,6 @@
 # UnityObservables
 A tiny package containing generic implementations for Observables that play nice with the Unity Editor. The Observables are serializable, they display nicely in the inspector, and they work with the UNDO system.
 
-![](observable.gif)
-
 ## Background
 The Observable pattern is extremely useful in Unity for many reasons. Not least of all is the potential performance gains. Without Observables you may need to check if a value has changed each frame inside an
 Update function. Since Unity uses reflection to call Update this can really add up, something I was surprised to see when profiling an oculus quest game. It was truly death by a thousand cuts.
@@ -14,6 +12,9 @@ from those examples and extending them further I've come up with this package. H
 Clone this repo or download its ZIP-file and copy the UnityObservables folder into your project.
 
 ## Example
+
+![](observable.gif)
+
 ```csharp
 using UnityEngine;
 
