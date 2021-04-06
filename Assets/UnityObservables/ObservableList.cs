@@ -163,7 +163,7 @@ namespace UnityObservables {
 
         void syncToPrevList() {
             // No need to do this stuff if not in the editor
-            if (Application.isEditor) {
+            if (!Application.isEditor) {
                 return;
             }
 
