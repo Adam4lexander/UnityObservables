@@ -7,6 +7,9 @@ using UnityEngine;
 using UnityEditor;
 using System.Linq;
 using System.Reflection;
+#if ODIN_INSPECTOR
+using Sirenix.OdinInspector.Editor;
+#endif
 #endif
 
 namespace UnityObservables {
@@ -95,6 +98,35 @@ namespace UnityObservables {
                 return enm.Current;
             }
         }
+
+#if ODIN_INSPECTOR
+        /* An alternative implementation for Odin Inspector. The Unity drawer above has some
+         * issues when using Odin.
+         */
+        public class ObservableOdinDrawer<T> : OdinValueDrawer<T> where T : ObservableBase  {
+
+            protected override void DrawPropertyLayout(GUIContent label) {
+                var obs = ValueEntry.SmartValue;
+
+                obs.OnBeginGui();
+
+                var val = ValueEntry.Property.FindChild(
+                    delegate (InspectorProperty obj) { return obj.Name == obs.ValuePropName; }, 
+                    false);
+                
+                EditorGUI.BeginChangeCheck();
+
+                if (val != null) {
+                    val.Draw(label);
+                }
+
+                if (EditorGUI.EndChangeCheck()) {
+                    val.Tree.ApplyChanges();
+                    obs.OnValidate();
+                }
+            }
+        }
+#endif
 #endif
     }
 }
