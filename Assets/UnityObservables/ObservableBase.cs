@@ -103,7 +103,7 @@ namespace UnityObservables {
         /* An alternative implementation for Odin Inspector. The Unity drawer above has some
          * issues when using Odin.
          */
-        public class ObservableOdinDrawer<T> : OdinValueDrawer<T> where T : ObservableBase  {
+        public class ObservableOdinDrawer<T> : OdinValueDrawer<T> where T : ObservableBase {
 
             protected override void DrawPropertyLayout(GUIContent label) {
                 var obs = ValueEntry.SmartValue;
@@ -111,17 +111,19 @@ namespace UnityObservables {
                 obs.OnBeginGui();
 
                 var val = ValueEntry.Property.FindChild(
-                    delegate (InspectorProperty obj) { return obj.Name == obs.ValuePropName; }, 
+                    delegate (InspectorProperty obj) { return obj.Name == obs.ValuePropName; },
                     false);
-                
+
                 EditorGUI.BeginChangeCheck();
 
                 if (val != null) {
                     val.Draw(label);
+                } else {
+                    CallNextDrawer(label);
                 }
 
                 if (EditorGUI.EndChangeCheck()) {
-                    val.Tree.ApplyChanges();
+                    ValueEntry.ApplyChanges();
                     obs.OnValidate();
                 }
             }
