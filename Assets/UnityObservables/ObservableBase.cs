@@ -123,7 +123,7 @@ namespace UnityObservables {
                 }
 
                 if (EditorGUI.EndChangeCheck()) {
-                    ValueEntry.ApplyChanges();
+                    ValueEntry.Property.Tree.ApplyChanges();
                     obs.OnValidate();
                 }
             }
