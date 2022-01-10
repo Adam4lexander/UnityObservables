@@ -8,8 +8,10 @@ namespace UnityObservables {
      * changed then the action will be invoked.
      */
     public class ObservableEffect : IDisposable {
-        
-        public static ObservableEffect Create(Action action, IEnumerable<ObservableBase> obs, bool fireImmediate=true) {
+
+        public static ObservableEffect Create(Action action, params ObservableBase[] obs) => Create(action, obs, true);
+        public static ObservableEffect CreateNoFireImmediate(Action action, params ObservableBase[] obs) => Create(action, obs, false);
+        public static ObservableEffect Create(Action action, IEnumerable<ObservableBase> obs, bool fireImmediate = true) {
             var instance = new ObservableEffect(action, obs);
             if (fireImmediate) {
                 action.Invoke();
