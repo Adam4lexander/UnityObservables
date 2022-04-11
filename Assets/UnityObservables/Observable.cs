@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -33,11 +34,7 @@ namespace UnityObservables {
         public T Value {
             get { return value; }
             set {
-                if (value is UnityEngine.Object || this.value is UnityEngine.Object) {
-                    if (ReferenceEquals(value, this.value)) {
-                        return;
-                    }
-                } else if ((value == null && this.value == null) || value != null && value.Equals(this.value)) {
+                if (EqualityComparer<T>.Default.Equals(value, this.value)) {
                     return;
                 }
 
