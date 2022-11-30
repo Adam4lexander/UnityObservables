@@ -18,8 +18,14 @@ namespace UnityObservables {
         // it to this variable to see if an event should be fired.
         T prevValue;
         bool prevValueInitialized = false;
-
+        
+        /// <summary>
+        /// Fires when the value is changed.
+        /// </summary>
         public override event Action OnChanged;
+        /// <summary>
+        /// Fires when the value is changed, but also includes the previous value. The first parameter is the previous value, the second parameter is the new value.
+        /// </summary>
         public event Action<T, T> OnChangedValues;
 
         protected override string ValuePropName { get { return "value"; } }
