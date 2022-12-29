@@ -9,7 +9,7 @@ using UnityEditor;
 namespace UnityObservables {
 
     [Serializable]
-    public class Observable<T> : ObservableBase, IEquatable<Observable<T>> {
+    public class Observable<T> : Observable, IEquatable<Observable<T>> {
 
         [SerializeField]
         T value;
@@ -55,6 +55,10 @@ namespace UnityObservables {
                     OnChangedValues(storePrev, value);
                 }
             }
+        }
+
+        public void SetValue(T value) {
+            Value = value;
         }
 
         public static explicit operator T(Observable<T> observable) {

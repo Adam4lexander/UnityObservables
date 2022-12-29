@@ -6,7 +6,7 @@ using UnityEngine;
 namespace UnityObservables {
 
     [Serializable]
-    public class ObservableList<T> : ObservableBase, IList<T> {
+    public class ObservableList<T> : Observable, IList<T> {
         public event Action<T> ItemAdded;
         public event Action<T> ItemRemoved;
         public override event Action OnChanged;

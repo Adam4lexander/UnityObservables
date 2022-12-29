@@ -30,7 +30,7 @@ public class ExampleObservable : MonoBehaviour {
         // Fire an action when any of the listed observables are changed
         ObservableEffect.Create(
             delegate () { transform.localScale = new Vector3(ScaleX.Value, ScaleY.Value, ScaleZ.Value); }, 
-            new ObservableBase[] { ScaleX, ScaleY, ScaleZ }
+            new Observable[] { ScaleX, ScaleY, ScaleZ }
         );
     }
 

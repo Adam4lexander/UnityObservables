@@ -15,7 +15,7 @@ using Sirenix.OdinInspector.Editor;
 namespace UnityObservables {
 
     // Base class implemented by all Observable types.
-    public abstract class ObservableBase {
+    public abstract class Observable {
         public abstract event Action OnChanged;
 
         // Can be called in a MonoBehaviours OnValidate section so events can fire after an UNDO operation
@@ -29,11 +29,11 @@ namespace UnityObservables {
         /* A Property Drawer for all subclasses of ObservableBase. It simply draws the underlying data type, such
          * that the fact its an Observable is hidden in the inspector.
          */
-        [CustomPropertyDrawer(typeof(ObservableBase), true)]
+        [CustomPropertyDrawer(typeof(Observable), true)]
         public class ObservableDrawer : PropertyDrawer {
             public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
 
-                var obs = fieldInfo.GetValue(GetParent(property)) as ObservableBase;
+                var obs = fieldInfo.GetValue(GetParent(property)) as Observable;
 
                 // Instruct the observable to prepare for its value to be changed in the inspector
                 obs.OnBeginGui();
@@ -55,7 +55,7 @@ namespace UnityObservables {
              * arrays in the serialized object.
              */
             public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
-                var obs = fieldInfo.GetValue(GetParent(property)) as ObservableBase;
+                var obs = fieldInfo.GetValue(GetParent(property)) as Observable;
                 SerializedProperty val = property.FindPropertyRelative(obs.ValuePropName);
                 return EditorGUI.GetPropertyHeight(val, label, true);
             }

@@ -9,9 +9,9 @@ namespace UnityObservables {
      */
     public class ObservableEffect : IDisposable {
 
-        public static ObservableEffect Create(Action action, params ObservableBase[] obs) => Create(action, obs, true);
-        public static ObservableEffect CreateNoFireImmediate(Action action, params ObservableBase[] obs) => Create(action, obs, false);
-        public static ObservableEffect Create(Action action, IEnumerable<ObservableBase> obs, bool fireImmediate = true) {
+        public static ObservableEffect Create(Action action, params Observable[] obs) => Create(action, obs, true);
+        public static ObservableEffect CreateNoFireImmediate(Action action, params Observable[] obs) => Create(action, obs, false);
+        public static ObservableEffect Create(Action action, IEnumerable<Observable> obs, bool fireImmediate = true) {
             var instance = new ObservableEffect(action, obs);
             if (fireImmediate) {
                 action.Invoke();
@@ -19,12 +19,12 @@ namespace UnityObservables {
             return instance;
         }
 
-        List<ObservableBase> observables = new List<ObservableBase>();
+        List<Observable> observables = new List<Observable>();
         Action action;
 
         ObservableEffect() { }
 
-        ObservableEffect(Action action, IEnumerable<ObservableBase> dependencies) {
+        ObservableEffect(Action action, IEnumerable<Observable> dependencies) {
             foreach (var o in dependencies) {
                 observables.Add(o);
                 o.OnChanged += FireEvent;
