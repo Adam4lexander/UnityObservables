@@ -103,7 +103,7 @@ namespace UnityObservables {
         /* An alternative implementation for Odin Inspector. The Unity drawer above has some
          * issues when using Odin.
          */
-        public class ObservableOdinDrawer<T> : OdinValueDrawer<T> where T : ObservableBase {
+        public class ObservableOdinDrawer<T> : OdinValueDrawer<T> where T : Observable {
 
             protected override void DrawPropertyLayout(GUIContent label) {
                 var obs = ValueEntry.SmartValue;
