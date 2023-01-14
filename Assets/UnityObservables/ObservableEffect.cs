@@ -7,24 +7,27 @@ namespace UnityObservables {
      * A convenient way to bind a single event handler to multiple observables at once. If any of the observables are
      * changed then the action will be invoked.
      */
-    public class ObservableEffect : IDisposable {
+    public class ObservableEffect : IObservable, IDisposable {
 
-        public static ObservableEffect Create(Action action, params Observable[] obs) => Create(action, obs, true);
-        public static ObservableEffect CreateNoFireImmediate(Action action, params Observable[] obs) => Create(action, obs, false);
-        public static ObservableEffect Create(Action action, IEnumerable<Observable> obs, bool fireImmediate = true) {
+        public static ObservableEffect Create(params IObservable[] obs) => Create(null, obs, false);
+        public static ObservableEffect Create(Action action, params IObservable[] obs) => Create(action, obs, true);
+        public static ObservableEffect CreateNoFireImmediate(Action action, params IObservable[] obs) => Create(action, obs, false);
+        public static ObservableEffect Create(Action action, IEnumerable<IObservable> obs, bool fireImmediate = true) {
             var instance = new ObservableEffect(action, obs);
             if (fireImmediate) {
-                action.Invoke();
+                action?.Invoke();
             }
             return instance;
         }
 
-        List<Observable> observables = new List<Observable>();
+        public event Action OnChanged;
+
+        List<IObservable> observables = new List<IObservable>();
         Action action;
 
         ObservableEffect() { }
 
-        ObservableEffect(Action action, IEnumerable<Observable> dependencies) {
+        ObservableEffect(Action action, IEnumerable<IObservable> dependencies) {
             foreach (var o in dependencies) {
                 observables.Add(o);
                 o.OnChanged += FireEvent;
@@ -39,7 +42,8 @@ namespace UnityObservables {
         }
 
         void FireEvent() {
-            action.Invoke();
+            action?.Invoke();
+            OnChanged?.Invoke();
         }
     }
 

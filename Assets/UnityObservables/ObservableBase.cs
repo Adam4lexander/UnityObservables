@@ -14,8 +14,12 @@ using Sirenix.OdinInspector.Editor;
 
 namespace UnityObservables {
 
+    public interface IObservable {
+        event Action OnChanged;
+    }
+
     // Base class implemented by all Observable types.
-    public abstract class Observable {
+    public abstract class Observable : IObservable {
         public abstract event Action OnChanged;
 
         // Can be called in a MonoBehaviours OnValidate section so events can fire after an UNDO operation

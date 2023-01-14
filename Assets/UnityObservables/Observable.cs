@@ -8,8 +8,13 @@ using UnityEditor;
 
 namespace UnityObservables {
 
+    public interface IObservable<T> : IObservable {
+        event Action<T, T> OnChangedValues;
+        T Value { get; }
+    }
+
     [Serializable]
-    public class Observable<T> : Observable, IEquatable<Observable<T>> {
+    public class Observable<T> : Observable, IObservable<T>, IEquatable<Observable<T>> {
 
         [SerializeField]
         T value;
