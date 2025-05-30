@@ -2,7 +2,7 @@
 
 A tiny package containing generic implementations for Observables that play nice with the Unity Editor. The Observables are serializable, they display nicely in the inspector, and they work with the UNDO system.
 
-> ⚠️ Note: This library evolved into [Spoke](github.com/Adam4lexander/Spoke), a mini-framework in two files.<br>
+> ⚠️ Note: This library evolved into [**Spoke**](https://github.com/Adam4lexander/Spoke), a mini-framework in two files.<br>
 > Spoke includes `UState<T>`, which is equivalent to `Observable<T>` from this repo, but more robust and resolves several long-standing issues.<br>
 > It also provides a toolbox of reactive primitives to simplify eventful logic. These are fully optional — if all you need is an observable variable that works in the editor, `UState<T>` does exactly that.<br>
 > If you're starting fresh, Spoke is recommended over UnityObservables.
